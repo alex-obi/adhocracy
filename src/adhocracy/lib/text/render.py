@@ -78,6 +78,8 @@ def render(text, substitutions=True, safe_mode='escape',
                        kill_tags=['embed', 'object']).clean_html(text)
 
     text = rewrite_urls(text)
+    
+    text = _indent_text(text)
 
     return text
 
@@ -90,6 +92,14 @@ def _line_table(lines):
                         <td class='line_text'>%s</td>
                      </tr>\n""" % (num + 1, line)
     _out += "</table>\n"
+    return _out
+
+
+def _indent_text(text):
+    beginnings = text.count(".indent.")
+    endings = text.count("./indent.")
+    _out = text.replace(".indent.","<div style=\"margin-left:20px;\">", min(beginnings, endings))
+    _out = _out.replace("./indent.", "</div>", min(beginnings, endings))
     return _out
 
 
