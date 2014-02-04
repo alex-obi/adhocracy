@@ -1,5 +1,6 @@
 
 import datetime
+import time
 import re
 
 from adhocracy.lib import votedetail
@@ -38,6 +39,23 @@ def decode_time(s):
             return strptime(s, '%Y-%m-%dT%H:%M:%SZ')
         except ValueError:
             return strptime(s, '%Y-%m-%dT%H:%M:%S')
+
+
+def get_current_timezone():
+    toffset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
+    if toffset == 0:
+        tz = "Z"
+    else:
+        if toffset > 0:
+            tsign = "-"
+        else:
+            tsign = "+"
+            toffset = -toffset
+        toffset = toffset // 60
+        tminutes = toffset % 60
+        thours = (toffset - tminutes) // 60
+        tz = "{0}{1:02d}:{2:02d}".format(tsign, thours, tminutes)
+    return tz
 
 
 class _Transform(object):
