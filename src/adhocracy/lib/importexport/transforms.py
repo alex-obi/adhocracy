@@ -396,6 +396,7 @@ class ProposalTransform(_Transform):
             'description': (None if obj.description is None
                             else obj.description.head.text),
             'creator': self._user_transform._compute_key(obj.creator),
+            'create_time': encode_time(obj.create_time),
             'adhocracy_type': 'proposal',
             'category': obj.category.title if obj.category else None,
             'tags': [o.name for o, _ in obj.tags],
@@ -444,6 +445,7 @@ class CommentTransform(_Transform):
             'text': obj.latest.text,
             'sentiment': obj.latest.sentiment,
             'creator': self._user_transform._compute_key(obj.creator),
+            'create_time': encode_time(obj.create_time),
             'adhocracy_type': 'comment',
         }
         if self._options.get('include_ratings', False):
