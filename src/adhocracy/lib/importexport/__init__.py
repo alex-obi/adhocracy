@@ -20,7 +20,7 @@ def export_data(opts):
     data['metadata'] = {
         'type': 'normsetting-export',
         'version': 4,
-        'time': transforms.encode_time(datetime.datetime.today()) + transforms.get_current_timezone(),
+        'time': transforms.encode_time(datetime.datetime.today()),
         'adhocracy_options': opts,
     }
     for transform in transforms.gen_active(opts):

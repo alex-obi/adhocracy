@@ -27,7 +27,7 @@ def decode_locale(ldata):
 
 
 def encode_time(dt):
-    return dt.isoformat()
+    return dt.isoformat() + get_current_timezone()
 
 
 def decode_time(s):
