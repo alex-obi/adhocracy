@@ -38,7 +38,16 @@ def decode_time(s):
         try:
             return strptime(s, '%Y-%m-%dT%H:%M:%SZ')
         except ValueError:
-            return strptime(s, '%Y-%m-%dT%H:%M:%S')
+            try:
+                return strptime(s, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                try:
+                    return strptime(s, '%Y-%m-%dT%H:%M:%S.%fZ')
+                except ValueError:
+                    if s[-6] == '+' or s[-6] == '-':
+                        return decode_time(s[:-6])
+                    else:
+                        raise ValueError
 
 
 def get_current_timezone():
